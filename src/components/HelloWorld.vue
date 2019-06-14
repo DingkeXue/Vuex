@@ -1,7 +1,7 @@
 <template>
   <div class="test">
     <div class="todo-item" v-for="(todo, index) in todos" :key="index">
-      <Item :todo="todo" @Remove="Remove"></Item>
+      <Item :todo="todo" @Remove="$emit('deleteItem', todo.id)"></Item>
     </div>
   </div>
 </template>
@@ -10,34 +10,13 @@
   import Item from './Item'
   export default {
       name:'test',
-      data() {
-          return {
-              todos: [
-                  {
-                      title: 'title 1',
-                      complete: false,
-                      id: 0
-                  },
-                  {
-                      title: 'title 2',
-                      complete: false,
-                      id: 1
-                  },
-                  {
-                      title: 'title 3',
-                      complete: false,
-                      id: 2
-                  }
-              ]
+      props: {
+          todos: {
+              type: Array
           }
       },
       components: {
           Item
-      },
-      methods: {
-          Remove(id) {
-              this.todos = this.todos.filter(todo => todo.id !== id);
-          }
       }
   }
 </script>
@@ -45,10 +24,13 @@
 <style scoped>
   .test {
     margin: 10px auto;
-    width: 500px;
+    width: 60%;
   }
 
   .todo-item {
-    padding: 5px 0;
+    padding: 8px 0;
+    margin: 8px 0;
+    box-shadow: 2px 3px 3px rgba(0, 0, 0, .2);
+    position: relative;
   }
 </style>

@@ -4,20 +4,17 @@
     <div class="nav">
       <app-header></app-header>
     </div>
-    <div class="content">
-      <router-view/>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import Header from './components/Header'
-  export default {
-      components: {
-          'app-header': Header
-      }
-  }
-
+import Header from './components/Header'
+export default {
+    components: {
+        'app-header': Header
+    }
+}
 </script>
 
 <style>
