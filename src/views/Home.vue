@@ -1,88 +1,72 @@
 <template>
   <div class="home">
-      <!--mutation测试-->
-      <!--<button @click="increment">+</button>-->
-      <!--{{count}}-->
-      <!--<button @click="decrement({mount: 2})">-</button>-->
-
-      <!--action 测试-->
-      <!--<button @click="decrementAsyn">-</button>-->
-      <!--{{count}}-->
-      <!--<button @click="incrementAsyn">+</button>-->
-      {{completedTodos}}
-      <button @click="fetchTodos">获取数据</button>
     <!--输入框-->
-    <app-AddTodo @addItem="addTodo"></app-AddTodo>
+    <app-AddTodo></app-AddTodo>
       <!--内容展示-->
     <div class="content">
-      <app-content :todos="todos" @deleteItem="deleteItem"></app-content>
+        <div class="photos">
+            <ul class="photo-list">
+                <li class="photo" v-for="(photo, index) in getAllItems" :key="index">
+                    <p class="title"><strong>Title: </strong>{{photo.title}}</p>
+                    <p class="img">
+                        <img :src="photo.thumbnailUrl">
+                    </p>
+                </li>
+            </ul>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import AddTodo from '@/components/AddTodo'
-import axios from 'axios'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import AddTodo from '../components/AddTodo'
 
 export default {
-   name: 'home',
-   data() {
-        return {
-            todos: []
-        }
+    name: 'photo-item',
+    components: {
+      'app-AddTodo': AddTodo
     },
-   components: {
-        'app-AddTodo': AddTodo,
-        'app-content': HelloWorld
-    },
-   methods: {
-       // 删除单条数据
-        deleteItem(id) {
-            axios.delete(`https://jsonplaceholder.typicode.com/todos/+${id}`)
-                .then(res => {
-                    this.todos = this.todos.filter(todo => todo.id !== id)
-                })
-                .catch(err => console.log(err));
-        },
-       // 添加新数据
-        addTodo(todo) {
-            const {title, completed} = todo;
-            axios.post('https://jsonplaceholder.typicode.com/todos', {
-                title,
-                completed
-            })
-                .then(res => {
-                    this.todos = [res.data, ...this.todos]
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        },
-       // 获取 store 中的数据
-       getTodos() {
-         return this.$store.state.todos.todos;
-       },
-       ...mapMutations(['increment', 'decrement']),
-       ...mapActions(['decrementAsyn', 'incrementAsyn', 'fetchTodos'])
-    },
-   created() {
-       // DOM 渲染前获取数据
-        axios.get('https://jsonplaceholder.typicode.com/todos?_limit=3')
-            .then(response => {
-                if (response.data) {
-                    this.todos = [...this.getTodos(), ...response.data];
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            })
+    methods: {
+        ...mapActions(['fetchData'])
     },
     computed: {
-        ...mapState(['count']),
-        ...mapGetters(['completedTodos', 'getTodosId'])
+        ...mapGetters(['getAllItems'])
+    },
+    created() {
+        this.fetchData();
     }
 }
 </script>
+
+<style scoped>
+    .content {
+        width: 80%;
+        margin: 20px auto;
+    }
+
+    .photo-list {
+        padding: 0;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        flex-flow: row wrap;
+    }
+
+    .photo-list .photo {
+        width: 40%;
+        margin: 10px;
+        display: inline-block;
+        padding: 20px;
+        background: white;
+        text-align: center;
+        box-shadow: 2px 3px 3px rgba(0, 0, 0, .2);
+    }
+
+    .photo .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+</style>

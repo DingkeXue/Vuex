@@ -1,6 +1,6 @@
 <template>
     <nav class="header">
-        <h2>Vue Demo</h2>
+        <h2>Vuex Demo</h2>
     </nav>
 </template>
 
