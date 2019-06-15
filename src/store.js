@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex);
 
@@ -38,9 +39,32 @@ export default new Vuex.Store({
       },
       decrement: (state, payload) => {
           return state.count -= payload.mount;
+      },
+      setTodos: (state, payload) => {
+          state.todos = [...payload.todos]
       }
   },
   actions: {
-
+      decrementAsyn: ({ commit }) => {
+          setTimeout(() => {
+              commit({
+                  type: 'decrement',
+                  mount: 2
+              })
+          }, 1000)
+      },
+      incrementAsyn: ({ commit }) => {
+          setTimeout(() => {
+              commit('increment')
+          }, 2000)
+      },
+      async fetchTodos ({commit})  {
+          const response = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10');
+          const res = response.data.filter(todo => todo.completed);
+          commit({
+              type: 'setTodos',
+              todos: res
+          })
+      }
   }
 })

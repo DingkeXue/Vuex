@@ -4,6 +4,13 @@
       <!--<button @click="increment">+</button>-->
       <!--{{count}}-->
       <!--<button @click="decrement({mount: 2})">-</button>-->
+
+      <!--action 测试-->
+      <!--<button @click="decrementAsyn">-</button>-->
+      <!--{{count}}-->
+      <!--<button @click="incrementAsyn">+</button>-->
+      {{completedTodos}}
+      <button @click="fetchTodos">获取数据</button>
     <!--输入框-->
     <app-AddTodo @addItem="addTodo"></app-AddTodo>
       <!--内容展示-->
@@ -18,7 +25,7 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import AddTodo from '@/components/AddTodo'
 import axios from 'axios'
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
    name: 'home',
@@ -58,7 +65,8 @@ export default {
        getTodos() {
          return this.$store.state.todos;
        },
-       ...mapMutations(['increment', 'decrement'])
+       ...mapMutations(['increment', 'decrement']),
+       ...mapActions(['decrementAsyn', 'incrementAsyn', 'fetchTodos'])
     },
    created() {
        // DOM 渲染前获取数据
