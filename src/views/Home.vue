@@ -1,7 +1,10 @@
 <template>
   <div class="home">
+      <!--mutation测试-->
+      <!--<button @click="increment">+</button>-->
+      <!--{{count}}-->
+      <!--<button @click="decrement({mount: 2})">-</button>-->
     <!--输入框-->
-      {{count}}
     <app-AddTodo @addItem="addTodo"></app-AddTodo>
       <!--内容展示-->
     <div class="content">
@@ -15,13 +18,13 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import AddTodo from '@/components/AddTodo'
 import axios from 'axios'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
    name: 'home',
    data() {
         return {
-            todos: [],
-            Todos: []
+            todos: []
         }
     },
    components: {
@@ -29,6 +32,7 @@ export default {
         'app-content': HelloWorld
     },
    methods: {
+       // 删除单条数据
         deleteItem(id) {
             axios.delete(`https://jsonplaceholder.typicode.com/todos/+${id}`)
                 .then(res => {
@@ -36,6 +40,7 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+       // 添加新数据
         addTodo(todo) {
             const {title, completed} = todo;
             axios.post('https://jsonplaceholder.typicode.com/todos', {
@@ -48,15 +53,19 @@ export default {
                 .catch(err => {
                     console.log(err);
                 })
-
-
-        }
+        },
+       // 获取 store 中的数据
+       getTodos() {
+         return this.$store.state.todos;
+       },
+       ...mapMutations(['increment', 'decrement'])
     },
    created() {
+       // DOM 渲染前获取数据
         axios.get('https://jsonplaceholder.typicode.com/todos?_limit=3')
             .then(response => {
                 if (response.data) {
-                    this.todos = [...this.Todos, ...response.data];
+                    this.todos = [...this.getTodos(), ...response.data];
                 }
             })
             .catch(err => {
@@ -64,13 +73,9 @@ export default {
             })
     },
     computed: {
-       get() {
-           console.log(this.$store.state.todos);
-           this.Todos = this.$store.state.todos;
-       },
-        count() {
-           return this.$store.state.count;
-        }
+        ...mapState(['count']),
+        ...mapGetters(['completedTodos', 'getTodosId']),
+        //...mapMutations(['increment', 'decrement'])
     }
 }
 </script>

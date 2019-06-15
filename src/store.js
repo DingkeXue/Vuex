@@ -24,10 +24,21 @@ export default new Vuex.Store({
           }
       ]
   },
+    getters: {
+        completedTodos: (state) => {
+            return state.todos.filter(todo => todo.completed)
+        },
+        getTodosId: (state) => (id) => {
+            return state.todos.find(todo => todo.id === id);
+        }
+    },
   mutations: {
-    increment: (state) => {
-      state.count ++;
-    }
+      increment: (state) => {
+          return state.count ++;
+      },
+      decrement: (state, payload) => {
+          return state.count -= payload.mount;
+      }
   },
   actions: {
 
