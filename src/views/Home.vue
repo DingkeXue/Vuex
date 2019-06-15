@@ -20,19 +20,19 @@ export default {
         return {
             todos: [
                 {
-                    title: 'title 1',
-                    complete: false,
-                    id: 0
+                    title: '早上八点起床',
+                    completed: false,
+                    id: 11
                 },
                 {
-                    title: 'title 2',
-                    complete: false,
-                    id: 1
+                    title: '中午要吃饭',
+                    completed: false,
+                    id: 12
                 },
                 {
-                    title: 'title 3',
-                    complete: false,
-                    id: 2
+                    title: '晚上多学会儿',
+                    completed: false,
+                    id: 13
                 }
             ]
         }
@@ -43,17 +43,17 @@ export default {
     },
    methods: {
         deleteItem(id) {
-            axios.delete(`http://jsonplaceholder.typicode.com/todos/+${id}`)
+            axios.delete(`https://jsonplaceholder.typicode.com/todos/+${id}`)
                 .then(res => {
                     this.todos = this.todos.filter(todo => todo.id !== id)
                 })
                 .catch(err => console.log(err));
         },
         addTodo(todo) {
-            const {title, complete} = todo;
-            axios.post('http://jsonplaceholder.typicode.com/todos', {
+            const {title, completed} = todo;
+            axios.post('https://jsonplaceholder.typicode.com/todos', {
                 title,
-                complete
+                completed
             })
                 .then(res => {
                     this.todos = [res.data, ...this.todos]
@@ -66,12 +66,11 @@ export default {
         }
     },
    created() {
-        axios.get('http://jsonplaceholder.typicode.com/todos?_limit=10')
+        axios.get('https://jsonplaceholder.typicode.com/todos?_limit=3')
             .then(response => {
-                return response.data;
-            })
-            .then(res => {
-                this.todos = res;
+                if (response.data) {
+                    this.todos = [...this.todos, ...response.data];
+                }
             })
             .catch(err => {
                 console.log(err);

@@ -19,7 +19,7 @@
                 if (this.title !== '') {
                     const newTodo = {
                         title: this.title,
-                        complete: false
+                        completed: false
                     };
                     this.$emit('addItem', newTodo);
                     this.title = '';
