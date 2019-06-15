@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <!--输入框-->
+      {{count}}
     <app-AddTodo @addItem="addTodo"></app-AddTodo>
+      <!--内容展示-->
     <div class="content">
       <app-content :todos="todos" @deleteItem="deleteItem"></app-content>
     </div>
@@ -15,26 +17,11 @@ import AddTodo from '@/components/AddTodo'
 import axios from 'axios'
 
 export default {
-    name: 'home',
+   name: 'home',
    data() {
         return {
-            todos: [
-                {
-                    title: '早上八点起床',
-                    completed: false,
-                    id: 11
-                },
-                {
-                    title: '中午要吃饭',
-                    completed: false,
-                    id: 12
-                },
-                {
-                    title: '晚上多学会儿',
-                    completed: false,
-                    id: 13
-                }
-            ]
+            todos: [],
+            Todos: []
         }
     },
    components: {
@@ -69,12 +56,21 @@ export default {
         axios.get('https://jsonplaceholder.typicode.com/todos?_limit=3')
             .then(response => {
                 if (response.data) {
-                    this.todos = [...this.todos, ...response.data];
+                    this.todos = [...this.Todos, ...response.data];
                 }
             })
             .catch(err => {
                 console.log(err);
             })
+    },
+    computed: {
+       get() {
+           console.log(this.$store.state.todos);
+           this.Todos = this.$store.state.todos;
+       },
+        count() {
+           return this.$store.state.count;
+        }
     }
 }
 </script>
