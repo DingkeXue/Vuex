@@ -63,7 +63,7 @@ export default {
         },
        // 获取 store 中的数据
        getTodos() {
-         return this.$store.state.todos;
+         return this.$store.state.todos.todos;
        },
        ...mapMutations(['increment', 'decrement']),
        ...mapActions(['decrementAsyn', 'incrementAsyn', 'fetchTodos'])
@@ -82,8 +82,7 @@ export default {
     },
     computed: {
         ...mapState(['count']),
-        ...mapGetters(['completedTodos', 'getTodosId']),
-        //...mapMutations(['increment', 'decrement'])
+        ...mapGetters(['completedTodos', 'getTodosId'])
     }
 }
 </script>
