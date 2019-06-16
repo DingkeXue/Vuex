@@ -2,6 +2,10 @@
   <div class="home">
     <!--输入框-->
     <app-AddTodo></app-AddTodo>
+      <!--筛选部分-->
+    <div class="filter">
+        <app-Filter></app-Filter>
+    </div>
       <!--内容展示-->
     <div class="content">
         <div class="items">
@@ -27,11 +31,13 @@
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import AddTodo from '../components/AddTodo'
+import Filter from '../components/Filter'
 
 export default {
     name: 'item-item',
     components: {
-      'app-AddTodo': AddTodo
+      'app-AddTodo': AddTodo,
+        'app-Filter': Filter
     },
     methods: {
         ...mapActions(['fetchData', 'removeTodo']),
@@ -89,6 +95,11 @@ export default {
 
     .completed .fa-check-square {
         color: green;
+    }
+
+    /* 筛选框 */
+    .filter {
+        margin: 10px auto;
     }
 
 </style>
