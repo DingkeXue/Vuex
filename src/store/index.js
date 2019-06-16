@@ -15,7 +15,17 @@ export default new Vuex.Store({
        // 获取数据
        setItems: (state, payload) => state.todos = [...payload.res],
         // 添加新数据
-        addItems: (state, payload) => state.todos.unshift(payload.res)
+        addItems: (state, payload) => state.todos.unshift(payload.res),
+        // 删除数据
+        delItems: (state, payload) => state.todos = state.todos.filter(todo => todo.id !== payload.id),
+        // 完成
+        doneClick: (state, payload) => {
+           state.todos.filter(todo => {
+               if (todo.id === payload) {
+                   todo.completed = !todo.completed;
+               }
+           })
+        }
     },
     actions: {
        // 获取数据
@@ -38,8 +48,11 @@ export default new Vuex.Store({
         // 删除数据
         async removeTodo({ commit }, id) {
            console.log(id);
-           const response = await axios.delete(`http://jsonplaceholder.typicode.com/todos/+${id}`);
-           console.log(response);
+           await axios.delete(`http://jsonplaceholder.typicode.com/todos/${id}`);
+           commit({
+               type: 'delItems',
+               id
+           })
         }
     }
 });

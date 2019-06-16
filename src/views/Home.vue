@@ -4,11 +4,15 @@
     <app-AddTodo></app-AddTodo>
       <!--内容展示-->
     <div class="content">
-        <div class="photos">
-            <ul class="photo-list">
-                <li class="photo" v-for="(todo, index) in getAllItems" :key="index">
-                    <div class="title">
-                        <p>{{todo.title}}</p>
+        <div class="items">
+            <ul class="item-list">
+                <li class="item" v-for="(todo, index) in getAllItems" :key="index"
+                    :class="{'completed': todo.completed }">
+                    <div>
+                        <p class="title">{{todo.title}}</p>
+                    </div>
+                    <div class="done" @click="doneClick(todo.id)">
+                        <i class="fas fa-check-square"></i>
                     </div>
                     <div class="remove" @click="removeTodo(todo.id)">
                         <i class="fas fa-trash-alt"></i>
@@ -25,12 +29,13 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import AddTodo from '../components/AddTodo'
 
 export default {
-    name: 'photo-item',
+    name: 'item-item',
     components: {
       'app-AddTodo': AddTodo
     },
     methods: {
-        ...mapActions(['fetchData', 'removeTodo'])
+        ...mapActions(['fetchData', 'removeTodo']),
+        ...mapMutations(['doneClick'])
     },
     computed: {
         ...mapGetters(['getAllItems'])
@@ -47,7 +52,7 @@ export default {
         margin: 20px auto;
     }
 
-    .photo-list {
+    .item-list {
         padding: 0;
         list-style: none;
         display: flex;
@@ -55,7 +60,7 @@ export default {
         flex-flow: row wrap;
     }
 
-    .photo-list .photo {
+    .item-list .item {
         width: 40%;
         margin: 10px;
         display: inline-block;
@@ -64,10 +69,26 @@ export default {
         box-shadow: 2px 3px 3px rgba(0, 0, 0, .2);
     }
 
-    .photo .title {
+    .item .title {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .item .remove,
+    .item .done {
+        display: inline-block;
+        margin-right: 20px;
+        font-size: 20px;
+    }
+
+    .item.completed {
+        text-decoration: line-through;
+        background: #007bff1c;
+    }
+
+    .completed .fa-check-square {
+        color: green;
     }
 
 </style>
