@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddTodo from '../components/AddTodo'
 import Filter from '../components/Filter'
 
@@ -95,7 +95,11 @@ export default {
     }
 
     .completed .fa-check-square {
-        color: green;
+        color: #007bff;
+    }
+
+    .completed .fa-trash-alt {
+        color: tomato;
     }
 
     /* 筛选框 */

@@ -10,7 +10,7 @@
 
 <style scoped>
     .header {
-        background: tomato;
+        background: #007bff;
         color: white;
         text-align: center;
         margin: 0 auto;
