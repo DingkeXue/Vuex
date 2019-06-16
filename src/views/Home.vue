@@ -91,6 +91,7 @@ export default {
     .item.completed {
         text-decoration: line-through;
         background: #007bff1c;
+        color: #666;
     }
 
     .completed .fa-check-square {

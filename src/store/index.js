@@ -25,7 +25,9 @@ export default new Vuex.Store({
                    todo.completed = !todo.completed;
                }
            })
-        }
+        },
+        // 筛选标题
+        filterTitle: (state, title) => state.todos = state.todos.filter(todo => todo.title.match(title))
     },
     actions: {
        // 获取数据
