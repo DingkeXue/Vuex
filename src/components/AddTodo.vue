@@ -2,12 +2,13 @@
     <div class="add">
         <form class="form">
             <input type="text" class="form-control title" v-model="title" placeholder="请添加代办事项...">
-            <button type="submit" class="btn btn-primary" @click.prevent="add">添加</button>
+            <button type="submit" class="btn btn-primary" @click.prevent="onSubmit(title)">添加</button>
         </form>
     </div>
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
     export default {
         data() {
             return {
@@ -15,13 +16,10 @@
             }
         },
         methods: {
-            add() {
-                if (this.title !== '') {
-                    const newTodo = {
-                        title: this.title,
-                        completed: false
-                    };
-                    this.$emit('addItem', newTodo);
+            ...mapActions(['addTodo']),
+            onSubmit(title) {
+                if (title) {
+                    this.addTodo(title);
                     this.title = '';
                 }
             }

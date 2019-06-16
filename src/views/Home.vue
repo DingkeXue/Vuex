@@ -6,11 +6,13 @@
     <div class="content">
         <div class="photos">
             <ul class="photo-list">
-                <li class="photo" v-for="(photo, index) in getAllItems" :key="index">
-                    <p class="title"><strong>Title: </strong>{{photo.title}}</p>
-                    <p class="img">
-                        <img :src="photo.thumbnailUrl">
-                    </p>
+                <li class="photo" v-for="(todo, index) in getAllItems" :key="index">
+                    <div class="title">
+                        <p>{{todo.title}}</p>
+                    </div>
+                    <div class="remove" @click="removeTodo(todo.id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -28,7 +30,7 @@ export default {
       'app-AddTodo': AddTodo
     },
     methods: {
-        ...mapActions(['fetchData'])
+        ...mapActions(['fetchData', 'removeTodo'])
     },
     computed: {
         ...mapGetters(['getAllItems'])
@@ -59,7 +61,6 @@ export default {
         display: inline-block;
         padding: 20px;
         background: white;
-        text-align: center;
         box-shadow: 2px 3px 3px rgba(0, 0, 0, .2);
     }
 
